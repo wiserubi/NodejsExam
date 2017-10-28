@@ -13,7 +13,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : 'test1234',
-  database : 'restful'
+  database : 'realestat'
 }); 
 connection.connect();
 ///////////////////////////////////
@@ -164,13 +164,13 @@ app.post('/user',function(req,res){
 	var hash = crypto.createHash('sha256').
 		update(password).digest('base64');
 	connection.query(
-		'insert into user(user_id,password,name,age) values(?,?,?,?)',
-		[ req.body.user_id, hash, req.body.name, req.body.age ], 
+		'insert into users(user_id,password,email) values(?,?,?)',
+		[ req.body.user_id, hash, req.body.email ], 
 		function(err, result) {
 			if (err) {
 				res.send(JSON.stringify(err));
 			} else {
-				res.send(JSON.stringify(result));
+				res.send(JSON.stringify({result:true}));
 			}
 		})
 });
