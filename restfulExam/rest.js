@@ -180,7 +180,7 @@ app.post('/user/login',function(req,res){
 	var hash = crypto.createHash('sha256').
 		update(password).digest('base64');
 	connection.query(
-		'select id from user where user_id=? and password=?',
+		'select id from users where user_id=? and password=?',
 		[ req.body.user_id, hash ], function(err, results, fields){
 			if (err) {
 				res.send(JSON.stringify(err));
