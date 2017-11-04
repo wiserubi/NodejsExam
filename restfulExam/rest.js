@@ -143,6 +143,16 @@ app.get('/user',function(req,res) {
 			}
 		});
 });
+app.get('/offer',function(req,res) {
+	connection.query('select * from offer', 
+		function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
 app.get('/user/:id',function(req,res){
 	connection.query('select * from user where id=?',
 		[req.params.id], function(err, results, fields) {
@@ -166,6 +176,21 @@ app.post('/user',function(req,res){
 	connection.query(
 		'insert into users(user_id,password,email) values(?,?,?)',
 		[ req.body.user_id, hash, req.body.email ], 
+		function(err, result) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify({result:true}));
+			}
+		})
+});
+
+app.post('/user/offer',function(req,res){
+	connection.query(
+		'insert into offer(user_id,indate,location_si,location_name, total_amt ,original_amt, premium ,rent,loan, migration_fee, tax,tel_number,jisang,myinterest,public) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)',
+		[ req.body.user_id,req.body.indate,req.body.location_si, req.body.location_name, req.body.total_amt , req.body.original_amt,
+		 req.body.premium,req.body.rent,req.body.loan,req.body.migration_fee,req.body.tax,req.body.tel_number,req.body.jisang,
+		 req.body.myinterest,req.body.public], 
 		function(err, result) {
 			if (err) {
 				res.send(JSON.stringify(err));
