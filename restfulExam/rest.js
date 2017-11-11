@@ -143,8 +143,101 @@ app.get('/user',function(req,res) {
 			}
 		});
 });
+
+
+app.get('/offerlist/:amt',function(req,res){
+	connection.query('select * from user where id=?',
+		[req.params.id], function(err, results, fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				if (results.length > 0) {
+					res.send(JSON.stringify(results[0]));
+				} else {
+					res.send(JSON.stringify({}));
+				}
+				
+			}
+		});
+});
+
+app.get('/offer/detail/:id/:id1/:id2',function(req,res){
+	connection.query('select * from offer where indate=? and total_amt=? and original_amt=? and public="Y" ',
+		[req.params.id,req.params.id1,req.params.id2],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+
+app.get('/offer/total_amt/:id',function(req,res){
+	connection.query('select * from offer where user_id=? and public="Y" order by total_amt',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+app.get('/offer/total_amt',function(req,res){
+	connection.query('select * from offer where public="Y" order by total_amt',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+app.get('/offer/original_amt/:id',function(req,res){
+	connection.query('select * from offer where user_id=? and public="Y" order by original_amt',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+app.get('/offer/original_amt',function(req,res){
+	connection.query('select * from offer where public="Y" order by original_amt',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+app.get('/offer/indate/:id',function(req,res){
+	connection.query('select * from offer where user_id=? and public="Y" order by indate',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+app.get('/offer/indate',function(req,res){
+	connection.query('select * from offer where public="Y" order by indate',
+		[req.params.id,req.params.search_condition],function(err,results,fields) {
+			if (err) {
+				res.send(JSON.stringify(err));
+			} else {
+				res.send(JSON.stringify(results));
+			}
+		});
+});
+
+
+
+
 app.get('/offer',function(req,res) {
-	connection.query('select * from offer', 
+	connection.query('select * from offer ', 
 		function(err,results,fields) {
 			if (err) {
 				res.send(JSON.stringify(err));
@@ -168,6 +261,8 @@ app.get('/user/:id',function(req,res){
 			}
 		});
 });
+
+
 var crypto = require('crypto');
 app.post('/user',function(req,res){
 	var password = req.body.password;
